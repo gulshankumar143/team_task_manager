@@ -6,6 +6,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Tasks from "./pages/Tasks";
+import TaskDetail from "./pages/TaskDetail";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
@@ -51,6 +52,15 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <Tasks />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/tasks/:id"
+              element={
+                <PrivateRoute>
+                  <TaskDetail />
                 </PrivateRoute>
               }
             />

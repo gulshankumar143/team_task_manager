@@ -75,20 +75,40 @@ exports.updateTaskStatus = async (req, res, next) => {
     const task = await Task.findById(req.params.id);
     if (!task) return res.status(404).json({ message: 'Task not found' });
 
-    // Only assigned user or Admin can update
-    if (
-      req.user.role !== 'Admin' &&
-      task.assignedTo.toString() !== req.user._id.toString()
-    ) {
+    const assignedId = String(task.assignedTo);
+    const currentUserId = String(req.user._id);
+
+    if (req.user.role !== 'Admin' && assignedId !== currentUserId) {
       return res.status(403).json({ message: 'Forbidden' });
     }
 
-    if (!['To Do', 'In Progress', 'Done'].includes(status)) {
+    const allowedStatuses = ['To Do', 'In Progress', 'Done'];
+    if (!allowedStatuses.includes(status)) {
       return res.status(400).json({ message: 'Invalid status' });
     }
 
     task.status = status;
     await task.save();
+    await task.populate('assignedTo', 'name email').populate('project', 'name');
+    res.json(task);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Get single task detail
+exports.getTaskById = async (req, res, next) => {
+  try {
+    const task = await Task.findById(req.params.id)
+      .populate('assignedTo', 'name email')
+      .populate('project', 'name');
+
+    if (!task) return res.status(404).json({ message: 'Task not found' });
+
+    if (req.user.role !== 'Admin' && String(task.assignedTo._id || task.assignedTo) !== String(req.user._id)) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+
     res.json(task);
   } catch (err) {
     next(err);

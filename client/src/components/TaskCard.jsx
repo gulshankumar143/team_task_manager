@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
 
 const statusStyles = {
@@ -19,15 +20,23 @@ const nextStatusMap = {
 };
 
 export default function TaskCard({ task, onStatusChange, isAdmin, currentUserId }) {
+  const navigate = useNavigate();
   const currentStatus = task.status || "To Do";
   const assignedName = task.assignedTo?.name || (typeof task.assignedTo === "string" ? task.assignedTo : "Unassigned");
   const assignedId = task.assignedTo?._id || task.assignedTo;
-  const isAssignedUser = assignedId?.toString() === currentUserId?.toString();
+  const isAssignedUser = String(assignedId) === String(currentUserId);
   const canUpdate = isAdmin || isAssignedUser;
   const availableStatuses = isAdmin ? Object.keys(statusStyles).filter((status) => status !== currentStatus) : nextStatusMap[currentStatus];
 
+  const handleCardClick = () => {
+    navigate(`/tasks/${task._id}`);
+  };
+
   return (
-    <div className="group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+    <div
+      onClick={handleCardClick}
+      className="group cursor-pointer rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+    >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="text-sm uppercase tracking-[0.3em] text-slate-400">{task.project?.name || "General"}</p>
@@ -56,7 +65,10 @@ export default function TaskCard({ task, onStatusChange, isAdmin, currentUserId 
             {availableStatuses.map((status) => (
               <button
                 key={status}
-                onClick={() => onStatusChange(task._id, status)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onStatusChange(task._id, status);
+                }}
                 className="rounded-2xl bg-slate-900 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slate-800"
               >
                 Mark as {status}
@@ -66,7 +78,7 @@ export default function TaskCard({ task, onStatusChange, isAdmin, currentUserId 
         </div>
       )}
 
-      {!canUpdate && onStatusChange && (
+      {onStatusChange && !canUpdate && (
         <div className="mt-5 rounded-3xl bg-slate-50 px-4 py-3 text-sm text-slate-500">
           Only the assigned member or Admin can update this task.
         </div>

@@ -4,6 +4,7 @@ const {
   createTask,
   getTasks,
   updateTaskStatus,
+  getTaskById,
   getDashboard
 } = require('../controllers/taskController');
 const { protect, authorize } = require('../middleware/auth');
@@ -17,6 +18,9 @@ router.get('/', protect, getTasks);
 
 // Update task status (assigned user or Admin)
 router.patch('/:id/status', protect, updateTaskStatus);
+
+// Get task details
+router.get('/:id', protect, getTaskById);
 
 // Dashboard stats
 router.get('/dashboard/summary', protect, getDashboard);
