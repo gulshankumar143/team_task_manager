@@ -1,53 +1,51 @@
 # Team Task Manager
 
-A full-stack project management and task tracking application built with React, Vite, Tailwind CSS, Node.js, Express, MongoDB, and JWT authentication.
+[![Node.js](https://img.shields.io/badge/Node.js-16%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express.js-%23404d59?logo=express&logoColor=white)](https://expressjs.com/)
+[![React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=white)](https://reactjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-blue?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-%2347A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![JWT](https://img.shields.io/badge/JWT-authentication-4b4f56)](https://jwt.io/)
+[![Deployed](https://img.shields.io/badge/Deployment-Render-8A2BE2?logo=render&logoColor=white)](https://render.com/)
+
+A full-stack task and project management application with role-based access control, team member assignment, task tracking, and dashboard analytics.
+
+## Project Summary
+Team Task Manager enables teams to:
+- Register and log in with secure JWT authentication
+- Create and manage projects with Admin controls
+- Assign tasks to members with due dates and priority
+- Track progress using task statuses: `To Do`, `In Progress`, `Done`
+- Review project progress and overdue work in a dashboard
 
 ## Live Demo
 - Frontend: https://team-task-manager-frontend-lt1i.onrender.com/
-- Backend API: https://team-task-manager-backend-newu.onrender.com/api
+- Backend API: https://team-task-manager-backend-newu.onrender.com/
 
-## Project Overview
-Team Task Manager allows teams to:
-- Sign up and log in securely using JWT authentication
-- Create projects and manage project members
-- Assign tasks to users, set priority and due date
-- Update task status across `To Do`, `In Progress`, and `Done`
-- View dashboard metrics and overdue tasks
-
-## Key Features
-- **Role-based access**: Admin and Member roles
-- **Project creation**: Admin users can create projects
-- **Member management**: Admin can add/remove members for a project
-- **Task management**: Admin can create tasks and assign them to project members
-- **Status updates**: Tasks can be updated by assigned users or Admin
-- **Dashboard**: Shows total tasks, status summary, tasks per user, and overdue task details
-- **Deployment-ready**: configured for production with deployed frontend and backend
+## Features
+- **Role-based access**: separate Admin and Member permissions
+- **Project management**: create projects and invite members
+- **Member assignment**: add/remove project members easily
+- **Task board**: create tasks and update status by assigned users
+- **Task detail view**: click a task card to open task details
+- **Dashboard analytics**: totals, status breakdown, overdue tasks, tasks per user
+- **Responsive UI**: built with React, Vite, and Tailwind CSS
+- **Deployment-ready**: configured for production hosting on Render
 
 ## Tech Stack
-- Frontend
-  - React 18
-  - Vite
-  - Tailwind CSS
-  - React Router DOM
-  - Axios
-- Backend
-  - Node.js
-  - Express
-  - MongoDB / Mongoose
-  - JWT authentication
-  - Joi validation
-- Deployment
-  - Render (deployed frontend + backend)
+- Frontend: React, Vite, Tailwind CSS, React Router, Axios
+- Backend: Node.js, Express, MongoDB, Mongoose, JWT, Joi
+- Deployment: Render
 
 ## Repository Structure
-```
+```text
 Team Task Manager/
-├── client/               # React frontend
+├── client/                 # React frontend application
 │   ├── public/
 │   ├── src/
 │   ├── package.json
 │   └── .env
-├── server/               # Express backend
+├── server/                 # Express backend API
 │   ├── controllers/
 │   ├── middleware/
 │   ├── models/
@@ -57,87 +55,79 @@ Team Task Manager/
 │   ├── server.js
 │   └── package.json
 ├── .gitignore
-├── DEPLOYMENT.md
 └── README.md
 ```
 
-## Setup Instructions
+## Getting Started
+### Backend Setup
+```bash
+cd server
+npm install
+```
+Create `server/.env`:
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5000
+```
+Start the backend:
+```bash
+npm run dev
+```
 
-### Backend
-1. Navigate to the server folder:
-   ```bash
-   cd server
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file inside `server/` with the following values:
-   ```env
-   MONGO_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   PORT=5000
-   ```
-4. Start the server:
-   ```bash
-   npm run dev
-   ```
-5. Verify the backend is running at:
-   - `http://localhost:5000/api`
-   - `http://localhost:5000/api/health`
-
-### Frontend
-1. Navigate to the client folder:
-   ```bash
-   cd client
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file inside `client/` with:
-   ```env
-   VITE_API_URL=http://localhost:5000/api
-   ```
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
-5. Visit the app in the browser at the Vite URL shown in terminal (usually `http://localhost:5173`).
+### Frontend Setup
+```bash
+cd client
+npm install
+```
+Create `client/.env`:
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+Start the frontend:
+```bash
+npm run dev
+```
+Open the app in your browser at the Vite URL shown in the terminal.
 
 ## API Endpoints
-### Authentication
-- `POST /api/auth/signup` — register a new user
-- `POST /api/auth/login` — log in and receive a JWT
+### Auth
+- `POST /api/auth/signup` — create a new user account
+- `POST /api/auth/login` — log in and return JWT credentials
 
 ### Users
 - `GET /api/users` — list users (Admin only)
 
 ### Projects
-- `GET /api/projects` — get projects assigned to the current user
-- `POST /api/projects` — create a new project (Admin only)
-- `POST /api/projects/:id/add-member` — add a member to a project (Admin only)
-- `POST /api/projects/:id/remove-member` — remove a member from a project (Admin only)
+- `GET /api/projects` — fetch projects for current user
+- `POST /api/projects` — create a project (Admin only)
+- `POST /api/projects/:id/add-member` — add member to project (Admin only)
+- `POST /api/projects/:id/remove-member` — remove member from project (Admin only)
 
 ### Tasks
-- `GET /api/tasks` — get tasks for the current user
-- `POST /api/tasks` — create a task (Admin only)
+- `GET /api/tasks` — fetch tasks for current user
+- `GET /api/tasks/:id` — fetch a task detail
+- `POST /api/tasks` — create task (Admin only)
 - `PATCH /api/tasks/:id/status` — update task status
-- `GET /api/tasks/dashboard/summary` — fetch dashboard statistics
+- `GET /api/tasks/dashboard/summary` — dashboard stats
 
-## Usage Guide
-1. Create an account via Signup. The first account can be assigned Admin privileges in the backend or via seeded data.
-2. Log in to access the dashboard.
-3. Admin users can create projects and add members.
-4. Admin users can create tasks, assign them to members, and set due dates and priority.
-5. Use the Dashboard and Tasks pages to monitor progress and update task status.
+## Usage
+1. Sign up or log in.
+2. Admin users create projects and add members.
+3. Admin users create tasks and assign them to members.
+4. Members update task status as work progresses.
+5. Use the Dashboard for summary metrics and overdue task visibility.
 
 ## Deployment
-- This app is deployed on Render with a working frontend and backend.
-- The frontend is configured to call the backend API using the deployed URL.
-- CORS is set up to allow requests from both local development and the deployed frontend domain.
+- This project is deployed on Render.
+- The frontend is configured to use the deployed backend API URL.
+- Ensure `VITE_API_URL` points to the backend before redeploying the frontend.
 
 ## Notes
-- Ensure the backend `.env` includes a valid `MONGO_URI` and `JWT_SECRET`.
-- The frontend uses `VITE_API_URL` to point at the backend API.
-- If deploying again, update the backend URL in `client/.env` and redeploy both services.
+- Use a valid `MONGO_URI` and `JWT_SECRET` in the backend `.env`.
+- Admin permissions are required for project and task creation.
+- Assigned users may update their own task status.
+
+---
+
+**Assignment by Ethara.AI**
