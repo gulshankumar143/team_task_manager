@@ -4,7 +4,7 @@ A full-stack project management and task tracking application built with React, 
 
 ## Live Demo
 - Frontend: https://team-task-manager-frontend-lt1i.onrender.com/
-- Backend API: https://team-task-manager-backend-newu.onrender.com/api
+- Backend API: https://team-task-manager-backend-newu.onrender.com/
 
 ## Project Overview
 Team Task Manager allows teams to:
