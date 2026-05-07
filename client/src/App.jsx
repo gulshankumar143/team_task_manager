@@ -15,11 +15,29 @@ function PrivateRoute({ children }) {
   return token ? children : <Navigate to="/login" replace />;
 }
 
+// Debug component to check if app is loading
+function DebugInfo() {
+  const auth = useAuth();
+  console.log("Auth state:", auth);
+  console.log("API URL:", import.meta.env.VITE_API_URL);
+
+  return (
+    <div style={{ padding: "20px", background: "#f0f0f0", margin: "20px" }}>
+      <h3>Debug Info</h3>
+      <p>Token: {auth?.token ? "Present" : "Not present"}</p>
+      <p>User: {auth?.user ? auth.user.name : "No user"}</p>
+      <p>API URL: {import.meta.env.VITE_API_URL}</p>
+    </div>
+  );
+}
+
 export default function App() {
+  console.log("App component rendering");
   return (
     <AuthProvider>
       <Router>
         <Navbar />
+        <DebugInfo />
 
         <div className="container mx-auto px-4 py-4">
           <Routes>
@@ -56,7 +74,7 @@ export default function App() {
             />
 
             {/*FIXED fallback */}
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="*" element={<Login />} />
           </Routes>
         </div>
       </Router>

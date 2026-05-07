@@ -12,12 +12,20 @@ const app = express();
 
 // ✅ CORS configuration (IMPORTANT)
 app.use(cors({
-  origin: ["http://localhost:5173", "https://team-task-manager-frontend-lt1i.onrender.com"], // Allow both local and deployed frontend
+  origin: [
+    "http://localhost:5173",
+    "https://team-task-manager-frontend-lt1i.onrender.com"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
 // Middleware
 app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.send('🚀 Team Task Manager API is running');
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
