@@ -208,7 +208,13 @@ export default function Tasks() {
             ) : (
               <div className="space-y-4">
                 {column.items.map((task) => (
-                  <TaskCard key={task._id} task={task} onStatusChange={handleStatusChange} isAdmin={user.role === "Admin"} />
+                  <TaskCard
+                    key={task._id}
+                    task={task}
+                    onStatusChange={handleStatusChange}
+                    isAdmin={user.role === "Admin"}
+                    currentUserId={user._id}
+                  />
                 ))}
               </div>
             )}

@@ -12,9 +12,19 @@ const priorityStyles = {
   High: "bg-rose-100 text-rose-800",
 };
 
-export default function TaskCard({ task, onStatusChange, isAdmin }) {
+const nextStatusMap = {
+  "To Do": ["In Progress"],
+  "In Progress": ["Done"],
+  Done: []
+};
+
+export default function TaskCard({ task, onStatusChange, isAdmin, currentUserId }) {
   const currentStatus = task.status || "To Do";
   const assignedName = task.assignedTo?.name || (typeof task.assignedTo === "string" ? task.assignedTo : "Unassigned");
+  const assignedId = task.assignedTo?._id || task.assignedTo;
+  const isAssignedUser = assignedId?.toString() === currentUserId?.toString();
+  const canUpdate = isAdmin || isAssignedUser;
+  const availableStatuses = isAdmin ? Object.keys(statusStyles).filter((status) => status !== currentStatus) : nextStatusMap[currentStatus];
 
   return (
     <div className="group rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
@@ -39,22 +49,26 @@ export default function TaskCard({ task, onStatusChange, isAdmin }) {
         <span className="rounded-full bg-slate-100 px-3 py-1">Assigned to: {assignedName}</span>
       </div>
 
-      {onStatusChange && (
-        <div className="mt-5 flex flex-wrap gap-2">
-          {Object.keys(statusStyles).map((status) => (
-            <button
-              key={status}
-              disabled={currentStatus === status}
-              onClick={() => onStatusChange(task._id, status)}
-              className={`rounded-2xl px-3 py-2 text-xs font-semibold transition ${
-                currentStatus === status
-                  ? "bg-slate-200 text-slate-600"
-                  : "bg-slate-900 text-white hover:bg-slate-800"
-              }`}
-            >
-              {status}
-            </button>
-          ))}
+      {onStatusChange && canUpdate && availableStatuses.length > 0 && (
+        <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-4">
+          <div className="mb-3 text-sm font-semibold text-slate-700">Update status</div>
+          <div className="flex flex-wrap gap-2">
+            {availableStatuses.map((status) => (
+              <button
+                key={status}
+                onClick={() => onStatusChange(task._id, status)}
+                className="rounded-2xl bg-slate-900 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slate-800"
+              >
+                Mark as {status}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {!canUpdate && onStatusChange && (
+        <div className="mt-5 rounded-3xl bg-slate-50 px-4 py-3 text-sm text-slate-500">
+          Only the assigned member or Admin can update this task.
         </div>
       )}
 
