@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 
@@ -32,6 +33,21 @@ export default function Dashboard() {
   return (
     <div className="max-w-3xl mx-auto mt-8 text-black">
       <h2 className="text-2xl font-bold mb-6">Dashboard</h2>
+
+      <div className="flex flex-wrap gap-3 mb-6">
+        <Link
+          to="/projects"
+          className="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700"
+        >
+          View Projects
+        </Link>
+        <Link
+          to="/tasks"
+          className="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700"
+        >
+          View Tasks
+        </Link>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="bg-white p-6 rounded shadow">

@@ -15,10 +15,25 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white shadow mb-6">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <Link to="/" className="font-bold text-xl text-indigo-600">
-          Team Task Manager
-        </Link>
+      <div className="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="flex items-center gap-4 flex-wrap">
+          <Link to="/" className="font-bold text-xl text-indigo-600">
+            Team Task Manager
+          </Link>
+          {user && (
+            <>
+              <Link to="/" className="text-gray-600 hover:text-indigo-600">
+                Dashboard
+              </Link>
+              <Link to="/projects" className="text-gray-600 hover:text-indigo-600">
+                Projects
+              </Link>
+              <Link to="/tasks" className="text-gray-600 hover:text-indigo-600">
+                Tasks
+              </Link>
+            </>
+          )}
+        </div>
 
         <div className="flex items-center gap-4">
           {user ? (
