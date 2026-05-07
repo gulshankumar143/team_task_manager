@@ -34,7 +34,7 @@
 
 2. **Environment Variables**:
    ```
-   VITE_API_URL=https://your-backend-service.onrender.com/api
+   VITE_API_URL=https://team-task-manager-backend-newu.onrender.com/api
    ```
 
 3. **Deploy**: Click "Create Static Site"
