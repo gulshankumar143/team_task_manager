@@ -1,29 +1,30 @@
-import { useEffect, useState } from 'react';
-import API from '../api/axios';
-import { useAuth } from '../context/AuthContext';
+import { useEffect, useState } from "react";
+import { PlusCircleIcon, UsersIcon, UserPlusIcon } from "@heroicons/react/24/outline";
+import API from "../api/axios";
+import { useAuth } from "../context/AuthContext";
 
 export default function Projects() {
   const { user } = useAuth();
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
   const [memberSelection, setMemberSelection] = useState({});
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchProjects();
-    if (user?.role === 'Admin') fetchUsers();
+    if (user?.role === "Admin") fetchUsers();
   }, [user]);
 
   const fetchProjects = async () => {
     setLoading(true);
     try {
-      const res = await API.get('/projects');
+      const res = await API.get("/projects");
       setProjects(res.data);
     } catch (err) {
-      setError('Failed to load projects');
+      setError("Failed to load projects");
     } finally {
       setLoading(false);
     }
@@ -31,7 +32,7 @@ export default function Projects() {
 
   const fetchUsers = async () => {
     try {
-      const res = await API.get('/users');
+      const res = await API.get("/users");
       setUsers(res.data);
     } catch (err) {
       console.error(err);
@@ -40,14 +41,14 @@ export default function Projects() {
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     try {
-      await API.post('/projects', { name, description });
-      setName('');
-      setDescription('');
+      await API.post("/projects", { name, description });
+      setName("");
+      setDescription("");
       fetchProjects();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create project');
+      setError(err.response?.data?.message || "Failed to create project");
     }
   };
 
@@ -58,109 +59,161 @@ export default function Projects() {
   const handleAddMember = async (projectId) => {
     const userId = memberSelection[projectId];
     if (!userId) return;
-    setError('');
+    setError("");
     try {
       await API.post(`/projects/${projectId}/add-member`, { userId });
-      setMemberSelection((prev) => ({ ...prev, [projectId]: '' }));
+      setMemberSelection((prev) => ({ ...prev, [projectId]: "" }));
       fetchProjects();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to add member');
+      setError(err.response?.data?.message || "Failed to add member");
     }
   };
 
   const handleRemoveMember = async (projectId, userId) => {
-    setError('');
+    setError("");
     try {
       await API.post(`/projects/${projectId}/remove-member`, { userId });
       fetchProjects();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to remove member');
+      setError(err.response?.data?.message || "Failed to remove member");
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-8">
-      <h2 className="text-2xl font-bold mb-6">Projects</h2>
-      {user.role === 'Admin' && (
-        <form onSubmit={handleCreate} className="mb-6 bg-white p-4 rounded shadow space-y-3">
+    <div className="max-w-6xl mx-auto mt-10 px-4 pb-10">
+      <div className="mb-8 rounded-3xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <label className="block mb-1">Project Name</label>
-            <input type="text" value={name} onChange={e => setName(e.target.value)} required className="w-full border px-3 py-2 rounded" />
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-600">Project Workspace</p>
+            <h1 className="mt-3 text-3xl font-semibold text-slate-900">Projects</h1>
+            <p className="mt-2 text-sm text-slate-500">Create projects, add members, and manage your team workload.</p>
           </div>
-          <div>
-            <label className="block mb-1">Description</label>
-            <input type="text" value={description} onChange={e => setDescription(e.target.value)} className="w-full border px-3 py-2 rounded" />
-          </div>
-          <button type="submit" className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Create Project</button>
-        </form>
-      )}
+          {user?.role === "Admin" && (
+            <div className="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm">
+              <PlusCircleIcon className="h-5 w-5" />
+              Create & Manage
+            </div>
+          )}
+        </div>
+
+        {user?.role === "Admin" && (
+          <form onSubmit={handleCreate} className="mt-8 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+            <div className="grid gap-4">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-700">Project Name</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                />
+              </div>
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-700">Description</label>
+                <input
+                  type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+                />
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="inline-flex h-12 items-center justify-center rounded-3xl bg-indigo-600 px-6 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
+            >
+              Create Project
+            </button>
+          </form>
+        )}
+
+        {error && <div className="mt-6 rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-rose-200">{error}</div>}
+      </div>
+
       {loading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div className="text-red-600">{error}</div>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, idx) => (
+            <div key={idx} className="h-56 animate-pulse rounded-3xl bg-slate-100" />
+          ))}
+        </div>
+      ) : !projects.length ? (
+        <div className="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-12 text-center text-slate-500">
+          <UsersIcon className="mx-auto h-10 w-10 text-slate-400" />
+          <p className="mt-4 text-lg font-semibold">No active projects yet</p>
+          <p className="mt-2 text-sm text-slate-500">Create a project to invite team members and start assigning tasks.</p>
+        </div>
       ) : (
-        <ul className="space-y-3">
-          {projects.map((p) => {
-            const availableUsers = users.filter(
-              (u) => !p.members.some((m) => m._id === u._id)
-            );
-            const creatorId = p.creator?._id || p.creator;
+        <div className="grid gap-6 lg:grid-cols-2">
+          {projects.map((project) => {
+            const availableUsers = users.filter((userOption) => !project.members.some((member) => member._id === userOption._id));
+            const creatorId = project.creator?._id || project.creator;
             return (
-              <li key={p._id} className="bg-white p-4 rounded shadow">
-                <div className="font-bold">{p.name}</div>
-                <div className="text-gray-600 text-sm mb-2">{p.description}</div>
-                <div className="text-xs text-gray-500 mb-3">
-                  Members: {p.members.map((m) => m.name).join(', ') || 'None'}
+              <div key={project._id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.3em] text-indigo-600">Project</p>
+                    <h2 className="mt-2 text-xl font-semibold text-slate-900">{project.name}</h2>
+                    <p className="mt-2 text-sm text-slate-500">{project.description || "No description added."}</p>
+                  </div>
+                  <div className="rounded-2xl bg-indigo-50 px-3 py-2 text-xs font-semibold text-indigo-700">{project.members.length} members</div>
                 </div>
 
-                {user?.role === 'Admin' && (
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {project.members.map((member) => (
+                    <span key={member._id} className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">
+                      {member.name}
+                    </span>
+                  ))}
+                </div>
+
+                {user?.role === "Admin" && (
+                  <div className="mt-6 space-y-4">
+                    <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
                       <select
-                        value={memberSelection[p._id] || ''}
-                        onChange={(e) => handleMemberSelect(p._id, e.target.value)}
-                        className="w-full border px-3 py-2 rounded"
+                        value={memberSelection[project._id] || ""}
+                        onChange={(e) => handleMemberSelect(project._id, e.target.value)}
+                        className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
                       >
-                        <option value="">Select user to add</option>
-                        {availableUsers.map((u) => (
-                          <option key={u._id} value={u._id}>{u.name} ({u.email})</option>
+                        <option value="">Add team member</option>
+                        {availableUsers.map((userOption) => (
+                          <option key={userOption._id} value={userOption._id}>{userOption.name} ({userOption.email})</option>
                         ))}
                       </select>
                       <button
                         type="button"
-                        onClick={() => handleAddMember(p._id)}
-                        disabled={!memberSelection[p._id]}
-                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                        onClick={() => handleAddMember(project._id)}
+                        disabled={!memberSelection[project._id]}
+                        className="inline-flex h-12 items-center justify-center rounded-3xl bg-emerald-600 px-5 text-sm font-semibold text-white transition disabled:cursor-not-allowed disabled:bg-slate-300 hover:bg-emerald-700"
                       >
+                        <UserPlusIcon className="mr-2 h-4 w-4" />
                         Add Member
                       </button>
                     </div>
 
-                    <div className="text-xs text-gray-600">
-                      Remove members:
-                      <div className="mt-2 space-y-1">
-                        {p.members.map((m) => (
-                          <div key={m._id} className="flex items-center justify-between gap-2 bg-gray-50 p-2 rounded">
-                            <span>{m.name} ({m.email})</span>
-                            {creatorId !== m._id && (
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveMember(p._id, m._id)}
-                                className="text-red-600 hover:underline"
-                              >
-                                Remove
-                              </button>
-                            )}
-                          </div>
-                        ))}
-                      </div>
+                    <div className="space-y-2 rounded-3xl bg-slate-50 p-4 text-sm text-slate-600">
+                      <p className="font-semibold text-slate-900">Team members</p>
+                      {project.members.map((member) => (
+                        <div key={member._id} className="flex items-center justify-between gap-3 rounded-2xl bg-white px-4 py-3 shadow-sm">
+                          <div className="truncate font-medium text-slate-900">{member.name}</div>
+                          {creatorId !== member._id && (
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveMember(project._id, member._id)}
+                              className="text-sm font-semibold text-rose-600 transition hover:text-rose-800"
+                            >
+                              Remove
+                            </button>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
-              </li>
+              </div>
             );
           })}
-        </ul>
+        </div>
       )}
     </div>
   );
