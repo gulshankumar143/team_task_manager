@@ -12,7 +12,7 @@ const app = express();
 
 // ✅ CORS configuration (IMPORTANT)
 app.use(cors({
-  origin: "http://localhost:5173", // frontend URL
+  origin: ["http://localhost:5173", "https://team-task-manager-frontend-lt1i.onrender.com"], // Allow both local and deployed frontend
   credentials: true
 }));
 
@@ -24,6 +24,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Team Task Manager Backend is running' });
+});
 
 // Error Handler
 app.use(errorHandler);
