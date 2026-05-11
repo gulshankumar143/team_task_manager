@@ -1,22 +1,198 @@
-# Node modules
-node_modules/
-server/node_modules/
-client/node_modules/
-
-# Build output - Keep for deployment
-# client/dist/
-
-# Environment files
+# ============================================
+# ENVIRONMENT & SECRETS (CRITICAL)
+# ============================================
 .env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
 server/.env
 client/.env.local
 client/.env
+config/local.*
+config/.env
+!.env.example
+!.env.sample
 
-# Logs
+# Credentials & Certificates
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+*.keystore
+secret.*
+secrets.*
+firebase-adminsdk*.json
+google-services.json
+*.p8
+private_key.json
+
+# ============================================
+# NODE.JS & NPM (Frontend & Backend)
+# ============================================
+node_modules/
+server/node_modules/
+client/node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+pnpm-error.log*
+lerna-debug.log*
 
-# OS files
+# Lock Files (choose your package manager)
+# Uncomment based on your preference
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+# bun.lockb
+
+# Node version management
+.nvmrc
+.node-version
+
+# ============================================
+# BUILD & DIST (Frontend - Vite)
+# ============================================
+# Keep commented for deployment if needed
+# client/dist/
+# dist/
+client/.vite
+client/vite.config.timestamp-*
+
+# ============================================
+# LOGS
+# ============================================
+logs/
+*.log
+*.logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ============================================
+# OS & SYSTEM FILES
+# ============================================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ============================================
+# IDE & EDITOR
+# ============================================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+.idea/
+.idea_modules/
+*.iml
+*.sublime-project
+*.sublime-workspace
+.eclipse
+.classpath
+.project
+.c9/
+*.launch
+.settings/
+*.swp
+*.swo
+*~
+.vim/
+.netrwhist
+.*.swp
+.*.swo
+
+# ============================================
+# TESTING & COVERAGE
+# ============================================
+coverage/
+.nyc_output/
+.coverage
+.pytest_cache/
+junit.xml
+*.test.js
+*.spec.js
+
+# ============================================
+# DATABASE (Local Development)
+# ============================================
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+mongodb-data/
+postgres-data/
+mysql-data/
+data/db/
+
+# ============================================
+# BACKEND SPECIFIC
+# ============================================
+# Uploads & Temporary Files
+uploads/
+temp/
+tmp/
+.tmp/
+cache/
+.cache/
+
+# Nodemon
+.nodemon.json
+
+# ============================================
+# DEPLOYMENT & BUILD ARTIFACTS
+# ============================================
+.next/
+.nuxt/
+.vercel/
+.netlify/
+.env.production.local
+out/
+build/
+
+# ============================================
+# DOCKER
+# ============================================
+docker-data/
+*.tar
+*.tar.gz
+docker-compose.override.yml
+.docker/
+
+# ============================================
+# VSCODE EXTENSIONS (Optional)
+# ============================================
+.vscode/extensions/
+
+# ============================================
+# MISC & ARCHIVES
+# ============================================
+*.zip
+*.rar
+*.7z
+*.tar.gz
+*.gz
+*.bak
+*.backup
+*.tmp
+*.temp
+
+# Git
+.git/
+.gitkeep
+.gitmodules
+
+# Misc files
+.env.bak
+config.local.js
+local.config.js
