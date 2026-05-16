@@ -1,15 +1,40 @@
 # Team Task Manager
 
-[![Node.js](https://img.shields.io/badge/Node.js-16%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/Express.js-%23404d59?logo=express&logoColor=white)](https://expressjs.com/)
-[![React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=white)](https://reactjs.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-blue?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-%2347A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![JWT](https://img.shields.io/badge/JWT-authentication-4b4f56)](https://jwt.io/)
-[![Deployed](https://img.shields.io/badge/Deployment-Render-8A2BE2?logo=render&logoColor=white)](https://render.com/)
+<div align="center">
+
+  <a href="https://nodejs.org/">
+    <img src="https://img.shields.io/badge/Node.js-16%2B-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
+  </a>
+
+  <a href="https://expressjs.com/">
+    <img src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge&logo=express&logoColor=white" alt="Express.js" />
+  </a>
+
+  <a href="https://reactjs.org/">
+    <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
+  </a>
+
+  <a href="https://tailwindcss.com/">
+    <img src="https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+  </a>
+
+  <a href="https://www.mongodb.com/">
+    <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
+  </a>
+
+  <a href="https://jwt.io/">
+    <img src="https://img.shields.io/badge/JWT-Authentication-4b4f56?style=for-the-badge" alt="JWT" />
+  </a>
+
+  <a href="https://render.com/">
+    <img src="https://img.shields.io/badge/Deployment-Render-8A2BE2?style=for-the-badge&logo=render&logoColor=white" alt="Render" />
+  </a>
 
 A full-stack task and project management application with role-based access control, team member assignment, task tracking, and dashboard analytics.
 
+</div>
+
+---
 ## Project Summary
 Team Task Manager enables teams to:
 - Register and log in with secure JWT authentication
